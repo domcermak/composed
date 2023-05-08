@@ -1,19 +1,6 @@
 # Generování obrázků z uživatelských vstupů s využitím neuronových sítí
-## Úvod
-
-Toto je aplikace k bakalářské práci na téma Generování obrázků z uživatelských vstupů s využitím neuronových sítí. Aplikace je napsána v jazyce Python a je spouštěna v docker kontejnerech. 
-
-Aplikace je rozdělena do několika částí:
-- rabbitmq - RabbitMQ server
-- postgres - PostgreSQL databáze
-- web - webová aplikace napsaná v jazyce Python s využitím frameworku Streamlit
-- worker - aplikace napsaná v jazyce Python, která zpracovává požadavky na generování obrázků
-
-Aplikaci je možné spustit na jakémkoliv operačním systému, který podporuje [Minimální hardwarové požadavky](#minimální-hardwarové-požadavky) a [Softwarové požadavky](#softwarové-požadavky).
-Aplikace byla testována na operačním systému macOS Ventura 13.3.1 (a) (22E772610a) na zařízení Apple MacBook Pro 16 2023, 16 GB RAM, 12 jader CPU.
-
 ## Obsah
-
+- [Úvod](#úvod)
 - [Minimální hardwarové požadavky](#minimální-hardwarové-požadavky)
 - [Softwarové požadavky](#softwarové-požadavky)
 - [Stažení aplikace](#stažení-aplikace)
@@ -24,6 +11,23 @@ Aplikace byla testována na operačním systému macOS Ventura 13.3.1 (a) (22E77
     - [Aplikace po startu negeneruje obrázky](#aplikace-po-startu-negeneruje-obrázky)
     - [Aplikace generuje z náčrtku obrázek s chybou](#aplikace-generuje-z-náčrtku-obrázek-s-chybou)
     - [Aplikace generuje z textu obrázek s chybou](#aplikace-generuje-z-textu-obrázek-s-chybou)
+    - [Vygenerované obrázky zmizely ze seznamu Stahování](#vygenerované-obrázky-zmizely-ze-seznamu-stahování)
+
+## Úvod
+
+Toto je aplikace k bakalářské práci na téma Generování obrázků z uživatelských vstupů s využitím neuronových sítí. Aplikace je napsána v jazyce Python a je spouštěna v docker kontejnerech. 
+
+Aplikace je rozdělena do několika částí:
+- `rabbitmq` - RabbitMQ server
+- `postgres` - PostgreSQL databáze
+- `web` - webová aplikace napsaná v jazyce Python s využitím frameworku Streamlit
+- `worker` - aplikace napsaná v jazyce Python, která zpracovává požadavky na generování obrázků
+
+Aplikaci je možné spustit na jakémkoliv operačním systému, který podporuje [Minimální hardwarové požadavky](#minimální-hardwarové-požadavky) a [Softwarové požadavky](#softwarové-požadavky).
+
+Aplikace byla testována na zařízeních:
+- Apple MacBook Pro 16 2023, 16 GB RAM, 12 jader CPU (M2) s operačním systémem macOS Ventura 13.3.1
+- Apple MacBook Pro 16 2019, 16 GB RAM, 12 jader CPU (i7) s operačním systémem macOS Ventura 13.2.1
 
 ## Minimální hardwarové požadavky
 - 12 GB RAM
@@ -55,7 +59,9 @@ Aplikaci je možné konfigurovat pomocí souborů:
 - [rabbitmq/rabbitmq.config](./rabbitmq/rabbitmq.config)
 - [docker-compose.yml](./docker-compose.yml)
 
-Může nastat problém s nedostatečnými hodnotami timeoutů. V takovém případě je nutné zvýšit hodnoty timeoutů v souboru [rabbitmq/rabbitmq.config](./rabbitmq/rabbitmq.config). Hodnota timeoutu je v sekundách v poli s názvem `heartbeat`.
+Může nastat problém s nedostatečnými hodnotami timeoutů. 
+V takovém případě je nutné zvýšit hodnoty timeoutů v souboru [rabbitmq/rabbitmq.config](./rabbitmq/rabbitmq.config). 
+Hodnota timeoutu je v sekundách v poli s názvem `heartbeat`.
 
 ## Spuštění aplikace
 
@@ -64,7 +70,9 @@ cd composed
 docker-compose up
 ```
 
-Nyní vyčkejte na spuštění aplikace. Nezavírejte terminál nebo aplikace bude ukončena. Aplikaci můžete ukončit klávesovou zkratkou `CTRL+C`.
+Nyní vyčkejte na spuštění aplikace.
+Nezavírejte terminál nebo aplikace bude ukončena. 
+Aplikaci můžete ukončit klávesovou zkratkou `CTRL+C`.
 
 Po spuštění aplikace je možné otevřít webovou aplikaci na adrese [http://localhost:8080](http://localhost:8080).
 V případě změny exportovaného portu v souboru [docker-compose.yml](./docker-compose.yml) je nutné změnit port v adrese.
@@ -86,6 +94,8 @@ d6fe3f77597a   domcermak/worker                 "python3 src/__init_…"   15 mi
 9fda4cd4b6df   rabbitmq:3.6-management-alpine   "docker-entrypoint.s…"   15 minutes ago   Up 15 minutes   4369/tcp, 5671/tcp, 0.0.0.0:5672->5672/tcp, 15671/tcp, 25672/tcp, 0.0.0.0:15672->15672/tcp   rabbitmq
 f12f4966bf75   postgres:14.2-alpine             "docker-entrypoint.s…"   15 minutes ago   Up 15 minutes   0.0.0.0:5432->5432/tcp                                                                       postgres
 ```
+
+Pokud aplikace nejsou spuštěné, ověřte, že jsou splněny [Minimální hardwarové požadavky](#minimální-hardwarové-požadavky) a [Softwarové požadavky](#softwarové-požadavky).
 
 ## FAQ
 ### Aplikace po startu nejde otevřít
@@ -115,3 +125,12 @@ Pokud je náčrtek například zvířete, které není v trénovacích datech, t
 
 Model DALL-E Mini, na kterém je text-to-image proces založen, podporuje pouze anglický jazyk.
 Pokud je text v jiném jazyce, model vygeneruje obrázek s chybou.
+
+### Vygenerované obrázky zmizely ze seznamu `Stahování`
+
+Každému uživateli je přiřazeno vlastní session ID, které je uloženo v cookies.
+Pomocí tohoto ID jsou indentifikovány obrázky, které patří danému uživateli.
+
+Framework Streamlit, na kterém je webová aplikace postavena, toto session ID mění při manuálním obnovení stránky. 
+Pokud manuálně obnovíte stránku s aplikací, pak jsou vaše data (vygenerované obrázky) znepřístupněny,
+protože vás aplikace indentifikuje jako nového uživatele.
