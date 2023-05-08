@@ -59,12 +59,19 @@ Aplikaci je možné konfigurovat pomocí souborů:
 - [rabbitmq/rabbitmq.config](./rabbitmq/rabbitmq.config)
 - [docker-compose.yml](./docker-compose.yml)
 
-Může nastat problém s nedostatečnými hodnotami timeoutů. 
+### Timeouty
+Může nastat problém s nedostatečnými hodnotami timeoutů, které mohou mýt způsobeny slabým výkonem zařízení.
 V takovém případě je nutné zvýšit hodnoty timeoutů v souboru [rabbitmq/rabbitmq.config](./rabbitmq/rabbitmq.config). 
-Hodnota timeoutu je v sekundách v poli s názvem `heartbeat`.
+Hodnota timeoutu je v sekundách v poli s názvem `heartbeat`. Počíteční hodnota je nastavena na `1200` sekund, což by mělo být dostatečné pro většinu zařízení.
 
 ## Spuštění aplikace
 
+> **Poznámka:**
+> Ujistěte se, že je vaše zařízení napájeno ze sítě a je připojeno k internetu.
+> Zároveň se ujistěte, že ventilátory nejsou nijak blokovány a zařízení má dostatečný přístup k chladnému vzduchu.
+> Aplikace může způsobit zahřátí zařízení a jeho přehřátí, zejména při generování obrázků z textu.
+
+Otevřete terminál a spusťte následující příkazy:
 ```shell
 cd composed
 docker-compose up
@@ -88,11 +95,11 @@ docker stats
 
 Příkaz `docker ps` by měl vypsat následující výstup:
 ```shell
-CONTAINER ID   IMAGE                            COMMAND                  CREATED          STATUS          PORTS                                                                                        NAMES
-6af1d97034b8   domcermak/web                    "sh -c 'streamlit ru…"   15 minutes ago   Up 15 minutes   0.0.0.0:8080->8080/tcp                                                                       web
-d6fe3f77597a   domcermak/worker                 "python3 src/__init_…"   15 minutes ago   Up 15 minutes                                                                                                worker
-9fda4cd4b6df   rabbitmq:3.6-management-alpine   "docker-entrypoint.s…"   15 minutes ago   Up 15 minutes   4369/tcp, 5671/tcp, 0.0.0.0:5672->5672/tcp, 15671/tcp, 25672/tcp, 0.0.0.0:15672->15672/tcp   rabbitmq
-f12f4966bf75   postgres:14.2-alpine             "docker-entrypoint.s…"   15 minutes ago   Up 15 minutes   0.0.0.0:5432->5432/tcp                                                                       postgres
+CONTAINER ID   IMAGE                            COMMAND                  CREATED          STATUS             PORTS                                                                                        NAMES
+3be674a73efd   domcermak/bp_web                 "sh -c 'streamlit ru…"   46 seconds ago   Up 43 seconds      0.0.0.0:8080->8080/tcp                                                                       web
+6c7b43497cdb   domcermak/bp_worker              "python3 src/__init_…"   48 seconds ago   Up 44 seconds                                                                                                   worker
+c9f1db991ae0   postgres:14.2-alpine             "docker-entrypoint.s…"   51 minutes ago   Up 44 seconds      0.0.0.0:5432->5432/tcp                                                                       postgres
+b47933f57c6a   rabbitmq:3.6-management-alpine   "docker-entrypoint.s…"   51 minutes ago   Up 44 seconds      4369/tcp, 5671/tcp, 0.0.0.0:5672->5672/tcp, 15671/tcp, 25672/tcp, 0.0.0.0:15672->15672/tcp   rabbitmq
 ```
 
 Pokud aplikace nejsou spuštěné, ověřte, že jsou splněny [Minimální hardwarové požadavky](#minimální-hardwarové-požadavky) a [Softwarové požadavky](#softwarové-požadavky).

@@ -81,8 +81,6 @@ CREATE TABLE public.generated_images
     created_at      timestamp without time zone NOT NULL
 );
 
-select count(g.*) from sessions ss join schedules si on si.session_id = ss.id join generated_images gi on gi.schedule_id = si.id
-
 
 --
 -- Name: sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
