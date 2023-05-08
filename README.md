@@ -33,7 +33,7 @@ Aplikace byla testována na zařízeních:
 - 12 GB RAM
 - 4 GB swap
 - 15 GB místa na disku
-- 8 jader CPU
+- 8 jader CPU podporující docker platformy `linux/amd64` nebo `linux/arm64`
 - Obrazovka 1280x800 pixelů
 
 Testováno na zařízení Apple MacBook Pro 16 2023, 16 GB RAM, 12 jader CPU.
