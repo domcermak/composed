@@ -4,7 +4,7 @@
 - [Minimální hardwarové požadavky](#minimální-hardwarové-požadavky)
 - [Softwarové požadavky](#softwarové-požadavky)
 - [Stažení aplikace](#stažení-aplikace)
-- [Configurace aplikace](#configurace-aplikace)
+- [Konfigurace aplikace před spuštěním](#konfigurace-aplikace-před-spuštěním)
 - [Spuštění aplikace](#spuštění-aplikace)
 - [FAQ](#faq)
     - [Aplikace po startu nejde otevřít](#aplikace-po-startu-nejde-otevřít)
@@ -54,12 +54,11 @@ Otevřete terminál a spusťte následující příkaz:
 git clone https://github.com/domcermak/composed.git
 ```
 
-## Configurace aplikace
+## Konfigurace aplikace před spuštěním
 Aplikaci je možné konfigurovat pomocí souborů:
 - [rabbitmq/rabbitmq.config](./rabbitmq/rabbitmq.config)
 - [docker-compose.yml](./docker-compose.yml)
 
-### Timeouty
 Může nastat problém s nedostatečnými hodnotami timeoutů, které mohou mýt způsobeny slabým výkonem zařízení.
 V takovém případě je nutné zvýšit hodnoty timeoutů v souboru [rabbitmq/rabbitmq.config](./rabbitmq/rabbitmq.config). 
 Hodnota timeoutu je v sekundách v poli s názvem `heartbeat`. Počíteční hodnota je nastavena na `1200` sekund, což by mělo být dostatečné pro většinu zařízení.
