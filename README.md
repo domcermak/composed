@@ -124,7 +124,7 @@ Text a náčrtky jsou zpracovávány v pořadí, ve kterém byly odeslány, po n
 
 ### Aplikace generuje z náčrtku obrázek s chybou
 
-Model neuronové sítě pro generování obrázků z náčrtku je natrénován pouze na obrázcích aut, psů, ptáků a květin. 
+Model neuronové sítě pro generování obrázků z náčrtku je natrénován pouze na obrázcích aut. 
 Pokud je náčrtek například zvířete, které není v trénovacích datech, tak model vygeneruje obrázek s chybou.
 
 ### Aplikace generuje z textu obrázek s chybou

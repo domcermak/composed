@@ -3,7 +3,7 @@ version: '3.7'
 services:
   web:
     container_name: 'web'
-    image: domcermak/bp_web
+    image: 'domcermak/bp_web'
     # platform: linux/amd64
     environment:
       AMQP_HOST: 'rabbitmq'
@@ -19,7 +19,7 @@ services:
 
   worker:
     container_name: 'worker'
-    image: domcermak/bp_worker
+    image: 'domcermak/bp_worker:cars_only'
     # platform: linux/amd64
     environment:
       AMQP_HOST: 'rabbitmq'
